@@ -209,5 +209,9 @@ ENV USER=$NB_USER
 # fix
 RUN chgrp users /var/games/moria/scores.dat
 RUN chgrp root -R /home
+
+# Checksum file dump for github actions
+RUN find / -path /proc -prune -o -type f 2>/dev/null -exec stat -c '%n %a' {} + | sha256sum > /home/jovyan/permissions_checksum.txt
+
 USER $NB_USER
 CMD  ["/bin/bash", "-c", "cd /home/jovyan ; start-notebook.sh"]
